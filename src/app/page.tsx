@@ -7,11 +7,11 @@ ensureSuperTokensInit();
 export default async function Home() {
 
   const jwtHandler = JWTHandler.getInstance();
-  const jwt = await jwtHandler.createNewJWT({ name: "test" }, 1);
+  const [jwt, isFreshToken] = await jwtHandler.getVerifiedJWT({ name: "test" }, 1);
 
-  const [decoded, wasValid] = await jwtHandler.decodeJWT(jwt);
+  console.log(`isFreshToken == `, isFreshToken);
 
-  console.log(`decodedJWT == `, wasValid, decoded)
+  console.log(`jwt == `, jwt);
 
 
   return (

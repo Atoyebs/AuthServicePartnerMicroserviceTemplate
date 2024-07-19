@@ -7,10 +7,11 @@ import jwksClient, { JwksClient } from "jwks-rsa";
 export class JWTHandler {
   private static instance: JWTHandler;
   private client: JwksClient;
-  public jwt: string;
+  public aJWT: string;
 
   private constructor() {
     this.client = this.createJWKSClient();
+    this.aJWT = "";
   }
 
   public static getInstance(): JWTHandler {
@@ -36,6 +37,7 @@ export class JWTHandler {
     );
     if (jwtResponse.status === "OK") {
       // Send JWT as Authorization header to M2
+      this.aJWT = jwtResponse.jwt;
       return jwtResponse.jwt;
     }
     throw new Error("Unable to create JWT. Should never come here.");
@@ -83,5 +85,35 @@ export class JWTHandler {
         resolve([decoded, true]);
       });
     });
+  }
+
+  public async getVerifiedJWT(payload: any, days: number): Promise<[string, boolean]> {
+    try {
+      //get the existing JWT
+      const existingJWT = this.aJWT;
+
+      //if the jwt is empty, this means that we need to create a new one
+      if (existingJWT == "") {
+        const newJWT = await this.createNewJWT(payload, days);
+        //here we create a new JWT and let the caller know that it was created afresh
+        return [newJWT, true];
+      }
+
+      //check if the jwt is valid
+      const [decodedJWT, wasValid] = await this.decodeJWT(existingJWT);
+
+      //if the jwt is valid, return the token and end the execution there
+      if (wasValid) {
+        return [existingJWT, wasValid];
+      }
+
+      //if the jwt is NOT valid, create a brand new one.
+      const freshJWT = await this.createNewJWT(payload, days);
+
+      //return the token
+      return [freshJWT, wasValid];
+    } catch (error) {
+      throw error;
+    }
   }
 }
