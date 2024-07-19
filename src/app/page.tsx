@@ -1,6 +1,19 @@
+import { ensureSuperTokensInit } from "@/config/backend";
+import { JWTHandler } from "@/models/jwt-handler";
 import Image from "next/image";
 
-export default function Home() {
+ensureSuperTokensInit();
+
+export default async function Home() {
+
+  const jwtHandler = JWTHandler.getInstance();
+  const jwt = await jwtHandler.createNewJWT({ name: "test" }, 1);
+
+  const [decoded, wasValid] = await jwtHandler.decodeJWT(jwt);
+
+  console.log(`decodedJWT == `, wasValid, decoded)
+
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
