@@ -1,10 +1,9 @@
-import { ensureSuperTokensInit } from "@/config/backend";
-import { JWTHandler } from "@/models/jwt-handler";
+import { JWTHandler, EnvHandler } from "supertokens-jwt-helper"
 import Image from "next/image";
 
-ensureSuperTokensInit();
-
 export default async function Home() {
+
+  EnvHandler.getInstance().setEnvs(process.env);
 
   const jwtHandler = JWTHandler.getInstance();
   const [jwt, isFreshToken] = await jwtHandler.getVerifiedJWT({ name: "test" }, 1);

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3005",
+    "link:local": "rm -rf node_modules/supertokens-js-override && npm link supertokens-jwt-helper",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
