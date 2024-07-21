@@ -1,20 +1,6 @@
-import Image from "next/image";
+import { menuItems } from "@/menu-items";
 import Link from "next/link";
 
-const menuItems = [
-  {
-    name: "Home",
-    href: "/"
-  },
-  {
-    name: "Login",
-    href: "#"
-  },
-  {
-    name: "Sign Up",
-    href: "#"
-  }
-]
 
 export default async function Home() {
 
