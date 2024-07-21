@@ -1,27 +1,6 @@
-import { JWTHandler, EnvHandler } from "supertokens-jwt-helper"
 import Image from "next/image";
-import axios from "axios";
-
-const verifyUser = async () => {
-  EnvHandler.getInstance().setEnvs(process.env);
-
-  const jwtHandler = JWTHandler.getInstance();
-  const [jwt] = await jwtHandler.getVerifiedJWT({ name: "test" }, 1);
-  const verificationEndpoint = "http://localhost:3000/api/auth/verify";
-  const { data } = await axios.post(verificationEndpoint, {}, {
-    headers: {
-      Authorization: `Bearer ${jwt}`,
-      'Content-Type': 'application/json'
-    }
-  });
-  return data;
-};
 
 export default async function Home() {
-
-  const data = await verifyUser();
-
-  console.log(`data in page = `, data)
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
