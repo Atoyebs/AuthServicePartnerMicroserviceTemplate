@@ -1,8 +1,10 @@
 "use client";
 import { menuItems } from "@/menu-items";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { signUp } from "supertokens-web-js/recipe/emailpassword";
+import HorizontalMenuLinks from "../components/menu-bar";
 
 const TUTORIAL_URL =
   "https://supertokens.com/docs/thirdpartyemailpassword/custom-ui/email-password-login";
@@ -66,7 +68,6 @@ export const SignupComponent = () => {
 
   return (
     <section className="flex flex-col justify-center items-center h-full">
-      <h1 style={{ marginBottom: "3rem" }}>Sign Up (Demo) </h1>
 
       <div style={{ gap: "1rem", width: "30vw" }} className="flex-col justify-center items-center">
         <input
@@ -97,11 +98,12 @@ export const SignupComponent = () => {
         </button>
       </div>
 
-      <span>
+      <span className="mb-6">
         <Link href={TUTORIAL_URL} target="_blank">
           Click here for tutorial instructions
         </Link>
       </span>
+      <HorizontalMenuLinks />
     </section>
   );
 };

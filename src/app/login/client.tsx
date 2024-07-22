@@ -1,7 +1,6 @@
 "use client"
-import { menuItems } from "@/menu-items";
-import Link from "next/link";
 import { useState } from "react";
+import HorizontalMenuLinks from "../components/menu-bar";
 export default function LoginComponent() {
 
   const [email, setEmail] = useState("");
@@ -46,13 +45,7 @@ export default function LoginComponent() {
           Log In
         </button>
       </div>
-      <div className="flex flex-row mt-[1.5rem] gap-[2rem]">
-        {menuItems.map((item) => (
-          <Link className="cursor-pointer underline text-blue-500" key={item.name} href={item.href}>
-            {item.name}
-          </Link>
-        ))}
-      </div>
+      <HorizontalMenuLinks />
 
     </div>
   );
