@@ -6,8 +6,6 @@ const VerifyPage = async (props: { searchParams: Record<string, string> }) => {
   const { searchParams } = props;
   const token = searchParams?.token;
 
-  console.log(`token from search params = `, token);
-
   if (!token) {
     return (
       <section className="flex flex-col h-full w-full justify-center items-center gap-4">
@@ -19,8 +17,6 @@ const VerifyPage = async (props: { searchParams: Record<string, string> }) => {
   }
 
   const { data } = await verifyUserAccount(token);
-
-  console.log(`data returned from verifyUserAccount: `, data);
 
   return (
     <section className="flex flex-col h-full w-full justify-center items-center gap-5">
