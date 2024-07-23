@@ -1,5 +1,4 @@
 import axios from "axios";
-import Link from "next/link";
 import HorizontalMenuLinks from "../components/menu-bar";
 
 const VerifyPage = async (props: { searchParams: Record<string, string> }) => {
@@ -16,25 +15,34 @@ const VerifyPage = async (props: { searchParams: Record<string, string> }) => {
     );
   }
 
-  const { data } = await verifyUserAccount(token);
+  try {
+    await verifyUserAccount(token);
+  } catch (error) {
+    return (
+      <section className="flex flex-col h-full w-full justify-center items-center gap-4">
+        <h2 className="capitalize mb-4">Verify page</h2>
+        <h3 className="text-red-600">Problem Verifying Account</h3>
+        <HorizontalMenuLinks />
+      </section>
+    );
+  }
+
 
   return (
     <section className="flex flex-col h-full w-full justify-center items-center gap-5">
       <h2 className="capitalize">Verify page</h2>
       <p>Congratulations you've been successfully verified!</p>
-      {/* <div>User data: {JSON.stringify(rest)}</div> */}
-
       <HorizontalMenuLinks />
     </section>
   );
 };
 
 const verifyUserAccount = async (token: string) => {
-  const { data } = await axios.post(`${process.env.NEXT_SERVER_API_DOMAIN}/api/user/verify`, {
+  const response = await axios.post(`${process.env.NEXT_SERVER_API_DOMAIN}/api/user/verify`, {
     token
   });
 
-  return data;
+  return response;
 };
 
 export default VerifyPage;

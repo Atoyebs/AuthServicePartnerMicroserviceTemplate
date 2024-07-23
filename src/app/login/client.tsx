@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import HorizontalMenuLinks from "../components/menu-bar";
+import EmailPassword from "supertokens-web-js/recipe/emailpassword";
 export default function LoginComponent() {
 
   const [email, setEmail] = useState("");
@@ -12,7 +13,18 @@ export default function LoginComponent() {
   const onLogin = async () => {
     setIsLoading(true);
     try {
-
+      const response = await EmailPassword.signIn({
+        formFields: [
+          { id: "email", value: email },
+          { id: "password", value: password }
+        ]
+      });
+      console.log(`response in login: `, response);
+      if (response.status === "OK") {
+        setIsEnabled(false);
+        alert("Login Successful. Click on a user page link to test route protection");
+        window.location.href = "/user";
+      }
     } catch (err) {
       console.log(err);
     } finally {
